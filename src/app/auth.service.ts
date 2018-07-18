@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { User, UserDetails, WriteableUser } from './models/user';
+import { Vanity } from './models/vanity';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   userDetails$: BehaviorSubject<UserDetails> = new BehaviorSubject(null);
   authState: any = null;
   userId: string;
-  babes = '';
+  vanity$: BehaviorSubject<Vanity> = new BehaviorSubject(null);
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -102,16 +103,40 @@ export class AuthService {
     });
   }
 
-  getVanity(vanity) {
-    console.log(vanity);
-    firebase
-      .database()
-      .ref('users')
-      .orderByChild('vanity')
-      .equalTo(vanity)
-      .on('value', function(snapshot) {
-        console.log(snapshot);
-      });
+  getVanity(vanity: string): Promise<Vanity> {
+    return new Promise((resolve, reject) => {
+      firebase
+        .database()
+        .ref('vanities')
+        .orderByChild('vanity')
+        .equalTo(vanity)
+        .on('value', (snapshot) => {
+          const vanities = snapshot.val();
+          console.log(vanities);
+          console.log(Object.keys(vanities));
+          if (Object.keys(vanities).length !== 0) {
+            const van = new Vanity(vanities[Object.keys(vanities)[0]]);
+            this.vanity$.next(van);
+            resolve(van);
+          } else {
+            this.vanity$.next(null);
+            resolve(null);
+          }
+        });
+    });
+  }
+
+  setVanity(vanity: Vanity) {
+    return new Promise((resolve, reject) => {
+      this.db.database
+        .ref('vanities')
+        .child(vanity.uid)
+        .set(vanity)
+        .then(snapshot => {
+          console.log(snapshot.val());
+          resolve();
+        });
+    });
   }
 
   logout() {

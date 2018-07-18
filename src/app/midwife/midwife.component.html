@@ -1,3 +1,9 @@
-<div class="midwife">
-  <h1>Morgan has caught 28 of her 40 babies to be a midwife</h1>
+<div class="midwife" *ngIf="midwife$ | async as midwife">
+  <h1> {{midwife.name}} has caught {{midwife.babies}} of their {{midwife.outOf}} babies</h1>
+</div>
+
+<pre>{{midwife$ | async | json}}</pre>
+
+<div class="midwife" *ngIf="midwife$ | async as midwife">
+  <h1> {{midwife.name}} has caught {{midwife.babies}} of their {{midwife.outOf}} babies</h1>
 </div>
