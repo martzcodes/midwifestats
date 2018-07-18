@@ -1,0 +1,14 @@
+<nav class="navbar-header primary-bg">
+  <a mat-button class="nav-button" routerLink="/" aria-label="MidwifeStats">
+    <img class="midwifestats-logo" src="../../../assets/midwifestats-logo.svg" alt="midwifestats">
+    <span>MidwifeStats</span>
+  </a>
+  <!-- <a mat-button *ngIf="authenticated" class="navbar-hide-small nav-button" routerLink="/profile" routerLinkActive="active">My Profile</a> -->
+
+  <div class="flex-spacer"></div>
+  <button mat-button *ngIf="!authenticated" class="nav-button active nav-auth" (click)="social('facebook')">Login</button>
+  <button mat-button *ngIf="authenticated" class="nav-button active nav-auth navbar-hide-small" (click)="logout()">Logout</button>
+</nav>
+<nav class="navbar navbar-show-small primary-bg">
+  <!-- <a mat-button *ngIf="authenticated" class="navbar-link" routerLink="/profile" routerLinkActive="active">My Profile</a> -->
+</nav>
