@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MidwifeComponent } from './midwife.component';
+import { MidwifeContainerComponent } from './midwife-container/midwife-container.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MidwifeComponent
+    component: MidwifeContainerComponent
   }
 ];
 

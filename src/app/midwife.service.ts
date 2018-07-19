@@ -9,12 +9,13 @@ import { Vanity } from './models/vanity';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class MidwifeService {
   user: Observable<firebase.User>;
   userDetails$: BehaviorSubject<UserDetails> = new BehaviorSubject(null);
   authState: any = null;
   userId: string;
-  vanity$: BehaviorSubject<Vanity> = new BehaviorSubject(null);
+  midwife$: BehaviorSubject<Vanity> = new BehaviorSubject(null);
+  ref: any;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -103,38 +104,28 @@ export class AuthService {
     });
   }
 
-  getVanity(vanity: string): Promise<Vanity> {
+  getVanity(vanity: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      firebase
-        .database()
-        .ref('vanities')
-        .orderByChild('vanity')
-        .equalTo(vanity)
-        .on('value', (snapshot) => {
-          const vanities = snapshot.val();
-          console.log(vanities);
-          console.log(Object.keys(vanities));
-          if (Object.keys(vanities).length !== 0) {
-            const van = new Vanity(vanities[Object.keys(vanities)[0]]);
-            this.vanity$.next(van);
-            resolve(van);
-          } else {
-            this.vanity$.next(null);
-            resolve(null);
-          }
-        });
-    });
-  }
+      if (this.ref) {
+        this.ref.off();
+      }
+      this.ref = firebase
+      .database()
+      .ref('vanities');
 
-  setVanity(vanity: Vanity) {
-    return new Promise((resolve, reject) => {
-      this.db.database
-        .ref('vanities')
-        .child(vanity.uid)
-        .set(vanity)
-        .then(snapshot => {
-          console.log(snapshot.val());
-          resolve();
+      this.ref.orderByChild('vanity')
+        .equalTo(vanity).on('value', (snapshot) => {
+          const vanities = snapshot.val();
+          if (vanities && Object.keys(vanities).length !== 0) {
+            console.log(vanities);
+            console.log(Object.keys(vanities));
+            const van = new Vanity(vanities[Object.keys(vanities)[0]]);
+            this.midwife$.next(van);
+            resolve(true);
+          } else {
+            this.midwife$.next(null);
+            resolve(false);
+          }
         });
     });
   }
@@ -142,5 +133,9 @@ export class AuthService {
   logout() {
     this.userDetails$.next(null);
     return this.firebaseAuth.auth.signOut();
+  }
+
+  getMidwife() {
+    return this.midwife$;
   }
 }

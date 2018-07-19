@@ -14,9 +14,9 @@ import {
   MatButtonModule,
   MatToolbarModule
 } from '@angular/material';
-import { AuthService } from './auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { MidwifeService } from './midwife.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
     MatButtonModule,
     MatToolbarModule
   ],
-  providers: [AuthService],
+  providers: [MidwifeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

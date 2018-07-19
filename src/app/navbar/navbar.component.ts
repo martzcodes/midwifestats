@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { MidwifeService } from '../midwife.service';
 import { Observable } from '../../../node_modules/rxjs';
 import { UserDetails } from '../models/user';
 
@@ -11,20 +11,20 @@ import { UserDetails } from '../models/user';
 export class NavbarComponent implements OnInit {
   authenticated: boolean;
   userDetails$: Observable<UserDetails>;
-  constructor(private authService: AuthService) {
-    this.authService.user.subscribe(user => {
+  constructor(private midwifeService: MidwifeService) {
+    this.midwifeService.user.subscribe(user => {
       this.authenticated = user !== null;
     });
-    this.userDetails$ = this.authService.userDetails$;
+    this.userDetails$ = this.midwifeService.userDetails$;
   }
 
   ngOnInit() {}
 
   social(provider) {
-    this.authService.social(provider);
+    this.midwifeService.social(provider);
   }
 
   logout() {
-    this.authService.logout();
+    this.midwifeService.logout();
   }
 }
