@@ -4,13 +4,31 @@ import { AdminContainerComponent } from './admin-container/admin-container.compo
 import { AdminComponentComponent } from './admin-component/admin-component.component';
 import { AdminService } from './admin.service';
 import { AdminRoutingModule } from './admin-routing.module';
+import {
+  MatCardModule,
+  MatButtonModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatIconModule
+} from '@angular/material';
+import { MidwifeModule } from '../midwife/midwife.module';
+import { MidwifeService } from '../State/midwife.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { VanityComponent } from './vanity/vanity.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    MatCardModule,
+    MatButtonModule,
+    MidwifeModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatIconModule
   ],
-  declarations: [AdminContainerComponent, AdminComponentComponent],
-  providers: [AdminService]
+  declarations: [AdminContainerComponent, AdminComponentComponent, VanityComponent],
+  providers: [AdminService, MidwifeService]
 })
-export class AdminModule { }
+export class AdminModule {}

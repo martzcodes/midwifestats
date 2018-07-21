@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,8 +17,46 @@ import {
 } from '@angular/material';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PrivacyComponent } from './privacy/privacy.component';
-import { MidwifeService } from './midwife.service';
+import { MidwifeService } from './State/midwife.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import {
+  StoreRouterConnectingModule,
+  routerReducer,
+  RouterStateSerializer
+} from '@ngrx/router-store';
+import { RouterStateSnapshot, Params } from '@angular/router';
+import * as fromMidwife from './State';
+import { MidwifeEffects } from './State/midwife.effects';
 
+export interface RouterStateUrl {
+  url: string;
+  params: Params;
+  queryParams: Params;
+}
+
+export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
+  serialize(routerState: RouterStateSnapshot): RouterStateUrl {
+    let route = routerState.root;
+
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    const {
+      url,
+      root: { queryParams }
+    } = routerState;
+    const { params } = route;
+
+    // Only return an object including the URL, params and query params
+    // instead of the entire snapshot
+    return { url, params, queryParams };
+  }
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,9 +73,21 @@ import { MidwifeService } from './midwife.service';
     AngularFireAuthModule,
     MatCardModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    BrowserAnimationsModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AppEffects]),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router'
+    }),
+    StoreModule.forFeature('midwife', fromMidwife.reducers),
+    EffectsModule.forFeature([MidwifeEffects])
   ],
-  providers: [MidwifeService],
+  providers: [
+    MidwifeService,
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

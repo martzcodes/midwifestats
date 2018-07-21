@@ -1,18 +1,20 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Vanity } from '../../models/vanity';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { Midwife } from '../../models/midwife';
 
 @Component({
   selector: 'app-midwife-component',
   templateUrl: './midwife-component.component.html',
-  styleUrls: ['./midwife-component.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./midwife-component.component.css']
 })
 export class MidwifeComponentComponent implements OnInit {
-  @Input() midwife: Vanity;
+  @Input() midwife: Midwife;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

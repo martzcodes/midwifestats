@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MidwifeService } from '../midwife.service';
-import { Observable } from '../../../node_modules/rxjs';
+import { MidwifeService } from '../State/midwife.service';
+import { Observable } from 'rxjs';
 import { UserDetails } from '../models/user';
 
 @Component({
@@ -11,11 +11,17 @@ import { UserDetails } from '../models/user';
 export class NavbarComponent implements OnInit {
   authenticated: boolean;
   userDetails$: Observable<UserDetails>;
+  vanity: string;
+
   constructor(private midwifeService: MidwifeService) {
     this.midwifeService.user.subscribe(user => {
       this.authenticated = user !== null;
     });
-    this.userDetails$ = this.midwifeService.userDetails$;
+    this.midwifeService.userDetails$.subscribe(userDetails => {
+      if (userDetails) {
+        this.vanity = userDetails.vanity;
+      }
+    });
   }
 
   ngOnInit() {}

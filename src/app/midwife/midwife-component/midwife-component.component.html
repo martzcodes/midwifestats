@@ -1,9 +1,12 @@
 <mat-card>
-  <mat-card-title>{{midwife.name}}</mat-card-title>
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img [src]="midwife.photo" height="100" width="100" />
+    </div>
+    <mat-card-title>{{midwife.name}}</mat-card-title>
+  </mat-card-header>
   <mat-card-content>
     <p>Caught {{midwife.babies}} out of {{midwife.outOf}} babies to become a midwife</p>
     <mat-progress-bar color="accent" [value]="100 * midwife.babies / midwife.outOf"></mat-progress-bar>
-    <!-- <img [src]="midwife.photo" height="100" width="100"/> -->
   </mat-card-content>
 </mat-card>
-<pre>{{midwife | json}}</pre>

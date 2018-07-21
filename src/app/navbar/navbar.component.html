@@ -3,12 +3,14 @@
     <img class="midwifestats-logo" src="../../../assets/midwifestats-logo.svg" alt="midwifestats">
     <span>MidwifeStats</span>
   </a>
-  <!-- <a mat-button *ngIf="authenticated" class="navbar-hide-small nav-button" routerLink="/profile" routerLinkActive="active">My Profile</a> -->
+  <a mat-button *ngIf="authenticated && vanity" class="nav-button navbar-hide-small" [routerLink]="['/', vanity]" routerLinkActive="accent-bg">My Profile</a>
+  <a mat-button *ngIf="authenticated" class="nav-button navbar-hide-small" routerLink="/edit-profile" routerLinkActive="accent-bg">Edit Profile</a>
 
   <div class="flex-spacer"></div>
   <button mat-button *ngIf="!authenticated" class="nav-button active nav-auth" (click)="social('facebook')">Login</button>
-  <button mat-button *ngIf="authenticated" class="nav-button active nav-auth navbar-hide-small" (click)="logout()">Logout</button>
+  <button mat-button *ngIf="authenticated" class="nav-button active nav-auth" (click)="logout()">Logout</button>
 </nav>
 <nav class="navbar navbar-show-small primary-bg">
-  <!-- <a mat-button *ngIf="authenticated" class="navbar-link" routerLink="/profile" routerLinkActive="active">My Profile</a> -->
+  <a mat-button *ngIf="authenticated && vanity" class="nav-button" [routerLink]="['/', vanity]" routerLinkActive="accent-bg">My Profile</a>
+  <a mat-button *ngIf="authenticated" class="nav-button" routerLink="/edit-profile" routerLinkActive="accent-bg">Edit Profile</a>
 </nav>

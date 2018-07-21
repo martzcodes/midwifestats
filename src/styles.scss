@@ -120,3 +120,7 @@ th.mat-header-cell:first-child {
 }
 
 @include temp-theme($mw-app-theme);
+
+mat-card {
+  margin: 10px;
+}

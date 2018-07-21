@@ -1,3 +1,8 @@
-<p>
-  admin-container works!
-</p>
+<div *ngIf="userDetails$ | async as user">
+  <app-vanity [user]="user" (vanity)="saveVanity($event)"></app-vanity>
+</div>
+<div *ngIf="midwife$ | async as midwife">
+  <app-admin-component (vanity)="saveVanity($event)" [midwife]="midwife$ | async" (save)="saveMidwife($event)"></app-admin-component>
+  <h1>This is your current profile...</h1>
+  <app-midwife-component [midwife]="midwife"></app-midwife-component>
+</div>

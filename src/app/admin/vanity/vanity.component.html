@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-title>Your Vanity URL</mat-card-title>
+  <mat-card-subtitle>The vanity url is the path to your profile</mat-card-subtitle>
+  <mat-card-content>
+    <mat-form-field class="vanity-full-width">
+      <span matPrefix>MidwifeStats.com/</span>
+      <input type="text" matInput placeholder="vanity url" [formControl]="vanityFormControl">
+      <mat-icon matSuffix *ngIf="!vanityFormControl.hasError('forbiddenName') && !vanityFormControl.hasError('required')">done_outline</mat-icon>
+      <mat-icon matSuffix *ngIf="vanityFormControl.hasError('forbiddenName') && !vanityFormControl.hasError('required')">block</mat-icon>
+      <mat-error *ngIf="vanityFormControl.hasError('pattern') && !vanityFormControl.hasError('required')">
+        Please enter a combination of letters, numbers or dashes.
+      </mat-error>
+      <mat-error *ngIf="vanityFormControl.hasError('maxlength') && !vanityFormControl.hasError('required')">
+        Please request a shorter vanity URL
+      </mat-error>
+      <mat-error *ngIf="vanityFormControl.hasError('required')">
+        Vanity URL is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" [disabled]="vanityFormControl.invalid || vanityFormControl.value == user.vanity || saved"
+      (click)="saveVanity()">Save Vanity URL</button>
+    <a mat-button [routerLink]="['/', user.vanity]">Go to Link</a>
+  </mat-card-actions>
+</mat-card>

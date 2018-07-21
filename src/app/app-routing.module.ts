@@ -20,9 +20,8 @@ const routes: Routes = [
     component: PrivacyComponent
   },
   {
-    path: 'my-profile',
-    loadChildren:
-      'src/app/admin/admin.module#AdminModule'
+    path: 'edit-profile',
+    loadChildren: 'src/app/admin/admin.module#AdminModule'
   },
   {
     path: ':vanity',

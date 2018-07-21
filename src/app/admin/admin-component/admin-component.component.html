@@ -1,3 +1,24 @@
-<p>
-  admin-component works!
-</p>
+<mat-card>
+  <mat-card-title>Your profile</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="midwifeForm" novalidate class="midwife-form">
+      <mat-form-field [floatLabel]="'always'">
+        <mat-label>Display Name</mat-label>
+        <input matInput type="text" formControlName="name">
+      </mat-form-field>
+      <mat-form-field [floatLabel]="'always'">
+        <mat-label>Babies Caught</mat-label>
+        <input matInput type="number" formControlName="babies">
+      </mat-form-field>
+      <mat-form-field [floatLabel]="'always'">
+        <mat-label>Number of Babies Required</mat-label>
+        <input matInput type="number" formControlName="outOf">
+      </mat-form-field>
+    </form>
+    <h2>Preview of changes...</h2>
+    <app-midwife-component [midwife]="midwifePreview"></app-midwife-component>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="saveMidwife()" [disabled]="midwifeForm.pristine || midwifeForm.invalid">Save Profile</button>
+  </mat-card-actions>
+</mat-card>

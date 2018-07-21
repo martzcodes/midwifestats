@@ -13,5 +13,6 @@ import { MatProgressBarModule, MatCardModule } from '@angular/material';
     MatCardModule
   ],
   declarations: [MidwifeContainerComponent, MidwifeComponentComponent],
+  exports: [MidwifeComponentComponent]
 })
-export class MidwifeModule { }
+export class MidwifeModule {}

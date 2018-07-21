@@ -22,10 +22,10 @@ export class WriteableUser {
   name: string;
   created: Date;
   updated: Date;
-  reviews: any;
   authProvider: string;
   photoUrl: string;
   babies: number;
+  vanity: string;
 
   constructor(details: any) {
     this.created = details.created || new Date();
@@ -35,7 +35,7 @@ export class WriteableUser {
     this.name = details.name || '';
     this.photoUrl = (details.photoUrl || '').replace(/http:/i, 'https:');
     this.babies = details.babies || 0;
-    this.reviews = details.reviews || {};
+    this.vanity = details.vanity || '';
   }
 }
 
