@@ -27,9 +27,9 @@ export class MidwifeContainerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(
-      new MidwifeActions.LoadMidwife(this.route.snapshot.paramMap.get('vanity'))
-    );
+    this.route.paramMap.subscribe(params => {
+      this.store.dispatch(new MidwifeActions.LoadMidwife(params.get('vanity')));
+    });
     this.midwife$ = this.store.select(fromMidwife.getSelectedMidwife);
   }
 }

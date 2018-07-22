@@ -21,7 +21,8 @@ const routes: Routes = [
   },
   {
     path: 'edit-profile',
-    loadChildren: 'src/app/admin/admin.module#AdminModule'
+    loadChildren: 'src/app/admin/admin.module#AdminModule',
+    canLoad: [MidwifeGuard]
   },
   {
     path: ':vanity',

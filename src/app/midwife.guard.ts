@@ -31,6 +31,9 @@ export class MidwifeGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
+    if (!this.midwifeService.authenticated) {
+      this.router.navigate(['404']);
+    }
+    return this.midwifeService.authenticated;
   }
 }

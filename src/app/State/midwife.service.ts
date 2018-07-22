@@ -224,6 +224,7 @@ export class MidwifeService {
 
   logout() {
     this.userDetails$.next(null);
+    this.router.navigate(['/']);
     return this.afAuth.auth.signOut();
   }
 }
