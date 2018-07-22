@@ -22,15 +22,13 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
 import {
   StoreRouterConnectingModule,
-  routerReducer,
   RouterStateSerializer
 } from '@ngrx/router-store';
 import { RouterStateSnapshot, Params } from '@angular/router';
-import * as fromMidwife from './State';
-import { MidwifeEffects } from './State/midwife.effects';
+import * as fromMidwife from './State/midwife.reducer';
+import {MidwifeEffects} from './State/midwife.effects';
 
 export interface RouterStateUrl {
   url: string;
@@ -75,18 +73,23 @@ export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
     MatButtonModule,
     MatToolbarModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AppEffects]),
+    // StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot({}),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router'
     }),
-    StoreModule.forFeature('midwife', fromMidwife.reducers),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx Book Store DevTools',
+      logOnly: environment.production,
+      maxAge: 25
+    }),
+    EffectsModule.forRoot([]),
+    StoreModule.forFeature('midwife', fromMidwife.reducer),
     EffectsModule.forFeature([MidwifeEffects])
   ],
   providers: [
     MidwifeService,
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    // { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })

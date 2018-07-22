@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class MidwifeService {
-  user: Observable<firebase.User>;
+  user: Observable<firebaseUser>;
   userDetails$: BehaviorSubject<UserDetails> = new BehaviorSubject(null);
   authState: any = null;
   userId: string;
@@ -23,7 +23,7 @@ export class MidwifeService {
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
-    private store: Store<fromMidwife.State>,
+    private store: Store<fromMidwife.MidwifesState>,
     private router: Router
   ) {
     this.user = afAuth.user;
@@ -127,24 +127,28 @@ export class MidwifeService {
     });
   }
 
-  getMidwife(vanity: string) {
+  getMidwife(vanity: string): Promise<Midwife> {
     if (this.ref) {
       this.ref.off();
     }
     this.ref = database().ref('vanities');
 
-    this.ref
+    return new Promise((resolve, reject) => {
+      this.ref
       .orderByChild('vanity')
       .equalTo(vanity)
       .on('value', snapshot => {
         const midwives = snapshot.val();
         if (midwives && Object.keys(midwives).length !== 0) {
           const midwife = new Midwife(midwives[Object.keys(midwives)[0]]);
+          resolve(midwife);
           this.store.dispatch(new MidwifeActions.LoadMidwifeSuccess(midwife));
         } else {
+          console.log('error in loading');
           // error?
         }
       });
+    });
   }
 
   setVanity(vanity: string) {
@@ -224,7 +228,6 @@ export class MidwifeService {
 
   logout() {
     this.userDetails$.next(null);
-    this.router.navigate(['/']);
     return this.afAuth.auth.signOut();
   }
 }

@@ -1,26 +1,22 @@
 import {
   Action,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector
+  ActionReducerMap
 } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { MidwifeActions, MidwifeActionTypes } from './midwife.actions';
-import { Midwife } from '../models/midwife';
-import * as fromRoot from '../reducers';
 
-export interface State extends EntityState<Midwife> {
+export interface MidwifesState {
+  midwife: State;
+}
+
+export interface State {
+  midwives: any;
   selectedMidwife: string | null;
 }
 
-export const adapter: EntityAdapter<Midwife> = createEntityAdapter<Midwife>({
-  selectId: (midwife: Midwife) => midwife.vanity,
-  sortComparer: false
-});
-
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
+  midwives: {},
   selectedMidwife: null
-});
+};
 
 export function reducer(state = initialState, action: MidwifeActions): State {
   switch (action.type) {
@@ -30,7 +26,11 @@ export function reducer(state = initialState, action: MidwifeActions): State {
         selectedMidwife: action.payload
       };
     case MidwifeActionTypes.LoadMidwifeSuccess:
-      return adapter.upsertOne(action.payload, state);
+      const newState = {
+        ...state
+      };
+      newState.midwives[action.payload.vanity] = action.payload;
+      return newState;
 
     default: {
       return state;
@@ -39,3 +39,5 @@ export function reducer(state = initialState, action: MidwifeActions): State {
 }
 
 export const getSelectedMidwifeId = (state: State) => state.selectedMidwife;
+export const getSelectedMidwife = (state: MidwifesState) =>
+  state.midwife.selectedMidwife ? state.midwife.midwives[state.midwife.selectedMidwife] : null;

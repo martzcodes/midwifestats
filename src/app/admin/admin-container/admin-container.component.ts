@@ -3,7 +3,7 @@ import { Observable, pipe } from 'rxjs';
 import { Midwife } from '../../models/midwife';
 import { Store } from '@ngrx/store';
 import * as MidwifeActions from '../../State/midwife.actions';
-import * as fromMidwife from '../../State';
+import * as fromMidwife from '../../State/midwife.reducer';
 import { MidwifeService } from '../../State/midwife.service';
 import { UserDetails } from '../../models/user';
 import { take, filter } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class AdminContainerComponent implements OnInit {
   userDetails$: Observable<UserDetails>;
 
   constructor(
-    private store: Store<fromMidwife.State>,
+    private store: Store<fromMidwife.MidwifesState>,
     private midwifeService: MidwifeService
   ) {}
 
