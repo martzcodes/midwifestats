@@ -32,7 +32,7 @@ export class VanityComponent implements OnInit {
       [
         Validators.required,
         Validators.maxLength(20),
-        Validators.pattern('[a-zA-Z-]*')
+        Validators.pattern('[a-z0-9-]*')
       ],
       [forbiddenNameValidator(this.midwifeService)]
     );
