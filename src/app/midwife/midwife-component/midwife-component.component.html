@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-header>
+    <img mat-card-avatar [src]="midwife.photo" />
+    <mat-card-title>{{midwife.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>Has caught {{midwife.babies}} out of {{midwife.outOf}} babies to become a midwife</p>
+    <mat-progress-bar color="accent" [value]="100 * midwife.babies / midwife.outOf"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>
