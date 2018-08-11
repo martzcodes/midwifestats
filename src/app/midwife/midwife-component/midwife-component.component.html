@@ -3,8 +3,11 @@
     <img mat-card-avatar [src]="midwife.photo" />
     <mat-card-title>{{midwife.name}}</mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="midwife.babies < midwife.outOf">
     <p>Has caught {{midwife.babies}} out of {{midwife.outOf}} babies to become a midwife</p>
     <mat-progress-bar color="accent" [value]="100 * midwife.babies / midwife.outOf"></mat-progress-bar>
+  </mat-card-content>
+  <mat-card-content *ngIf="midwife.babies >= midwife.outOf">
+    <p>Has caught all {{midwife.outOf}} babies to become a midwife!</p>
   </mat-card-content>
 </mat-card>

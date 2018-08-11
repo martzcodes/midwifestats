@@ -29,6 +29,7 @@ import {
 import { RouterStateSnapshot, Params } from '@angular/router';
 import * as fromMidwife from './State/midwife.reducer';
 import {MidwifeEffects} from './State/midwife.effects';
+import { FooterComponent } from './footer/footer.component';
 
 export interface RouterStateUrl {
   url: string;
@@ -61,7 +62,8 @@ export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
     LandingComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
